@@ -1,7 +1,7 @@
 (function(){
 const P=window.P={};
 P.KEYS={tasks:'prodify_tasks',tx:'prodify_transactions',settings:'prodify_settings',notif:'prodify_notifications',history:'prodify_history'};
-P.defaults={tasks:[],tx:[],settings:{name:'Friend',opening:0,theme:'light',target:80,session:false},notif:{fired:[],list:[]},history:{}};
+P.defaults={tasks:[],tx:[],settings:{name:'Friend',opening:0,theme:'light',target:80,session:false,notificationsEnabled:true},notif:{fired:[],list:[]},history:{}};
 const clone=o=>JSON.parse(JSON.stringify(o));
 P.load=k=>{try{const v=JSON.parse(localStorage.getItem(P.KEYS[k]));if(v==null)throw 0;
  if(Array.isArray(P.defaults[k]))return Array.isArray(v)?v.filter(x=>x&&typeof x==='object'&&x.id):clone(P.defaults[k]);

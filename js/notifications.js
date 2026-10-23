@@ -30,13 +30,39 @@ P.registerServiceWorker=async()=>{
 P.requestPerm=async()=>{
  if(!('Notification' in window))return P.toast('Browser ini tidak mendukung notifikasi.');
  const permission=await Notification.requestPermission();
+ state.settings.notificationsEnabled=permission==='granted';
+ P.save('settings',state.settings);
  $('#permInfo').textContent='Izin: '+permission;
  if(permission==='granted'){
   await P.registerServiceWorker();
   P.toast('Notifikasi browser aktif.');
  }else P.toast('Izin notifikasi belum diberikan.');
 };
+P.permissionStatus=async()=>{
+ let permission='unsupported';
+ if('Notification' in window)permission=Notification.permission;
+ if(navigator.permissions){
+  try{const result=await navigator.permissions.query({name:'notifications'});permission=result.state}catch(e){console.warn('Prodify: status izin tidak dapat divalidasi',e)}
+ }
+ const enabled=state.settings.notificationsEnabled!==false;
+ $('#permInfo').textContent='Status: '+permission+(enabled?' · Prodify aktif':' · Prodify dinonaktifkan');
+ return permission;
+};
+P.cancelNotifications=async()=>{
+ state.settings.notificationsEnabled=false;
+ P.save('settings',state.settings);
+ if('serviceWorker' in navigator){
+  try{
+   const registration=await navigator.serviceWorker.getRegistration();
+   const subscription=registration&&await registration.pushManager.getSubscription();
+   if(subscription)await subscription.unsubscribe();
+  }catch(e){console.error('Prodify: subscription push gagal dilepas',e)}
+ }
+ await P.permissionStatus();
+ P.toast('Notifikasi Prodify dibatalkan. Izin browser perlu dicabut manual.');
+};
 P.checkReminders=()=>{
+ if(state.settings.notificationsEnabled===false)return;
  const now=new Date(),today=P.today(),minute=now.getHours()*60+now.getMinutes();
  state.tasks.filter(t=>t.status!=='done'&&t.date===today&&t.start&&Number.isInteger(t.reminder)&&t.reminder>=0)
   .forEach(t=>{
