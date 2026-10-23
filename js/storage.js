@@ -1,0 +1,32 @@
+(function(){
+const P=window.P={};
+P.KEYS={tasks:'prodify_tasks',tx:'prodify_transactions',settings:'prodify_settings',notif:'prodify_notifications',history:'prodify_history'};
+P.defaults={tasks:[],tx:[],settings:{name:'Friend',opening:0,theme:'light',target:80,session:false},notif:{fired:[],list:[]},history:{}};
+const clone=o=>JSON.parse(JSON.stringify(o));
+P.load=k=>{try{const v=JSON.parse(localStorage.getItem(P.KEYS[k]));if(v==null)throw 0;
+ if(Array.isArray(P.defaults[k]))return Array.isArray(v)?v.filter(x=>x&&typeof x==='object'&&x.id):clone(P.defaults[k]);
+ return Object.assign(clone(P.defaults[k]),v)}catch(e){return clone(P.defaults[k])}};
+P.save=(k,v)=>{try{localStorage.setItem(P.KEYS[k],JSON.stringify(v))}catch(e){P.toast&&P.toast('Gagal menyimpan data (penyimpanan penuh?)')}};
+P.state={};Object.keys(P.KEYS).forEach(k=>P.state[k]=P.load(k));
+P.commit=k=>{P.save(k,P.state[k]);P.render&&P.render()};
+P.backup=()=>{try{const b={};Object.keys(P.KEYS).forEach(k=>b[k]=P.state[k]);localStorage.setItem('prodify_backup',JSON.stringify(b))}catch(e){}};
+P.uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,8);
+P.ymd=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+P.today=()=>P.ymd(new Date());
+P.nowL=()=>{const d=new Date();return P.ymd(d)+'T'+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0')};
+P.fd=ds=>new Date(ds+'T00:00').toLocaleDateString('id-ID',{day:'numeric',month:'short',year:'numeric'});
+P.rp=new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format;
+P.h=(tag,props,...kids)=>{const e=document.createElement(tag);
+ for(const k in props||{}){const v=props[k];if(v==null||v===false)continue;
+  if(k==='class')e.className=v;else if(k==='text')e.textContent=v;
+  else if(k.startsWith('on'))e.addEventListener(k.slice(2),v);
+  else if(k.startsWith('data-')||k.startsWith('aria-')||k==='style')e.setAttribute(k,v);
+  else if(k in e)e[k]=v;else e.setAttribute(k,v)}
+ kids.flat().forEach(c=>c!=null&&c!==false&&e.append(c));return e};
+const mascotAssets={happy:'mascot-happy.png',excited:'mascot-excited.png',worried:'mascot-worried.png',sleepy:'mascot-sleepy.png',idle:'mascot-idle.png'};
+P.mascot=(mood,size,live)=>P.h('span',{class:'mascot '+size+' m-'+mood+(live?' live':'')},P.h('img',{src:'assets/images/'+(mascotAssets[mood]||mascotAssets.idle),alt:'Mascot '+mood+' Prodify'}));
+P.field=(label,input)=>P.h('label',{class:'f'},P.h('span',{text:label}),input);
+P.sel=(opts,val)=>{const s=P.h('select');opts.forEach(([v,l])=>s.append(P.h('option',{value:v,text:l,selected:v===val})));return s};
+P.empty=(msg,btn)=>P.h('div',{class:'empty'},P.mascot('sleepy','lg'),P.h('p',{text:msg}),btn);
+P.bars=(rows,fmt,cls)=>{const mx=Math.max(1,...rows.map(r=>Math.abs(r[1])));return P.h('div',{},rows.map(([l,v,c])=>P.h('div',{class:'brow'},P.h('span',{text:l}),P.h('div',{class:'track'},P.h('i',{class:c||cls||'',style:'width:'+Math.abs(v)/mx*100+'%'})),P.h('em',{text:fmt(v)}))))};
+})();

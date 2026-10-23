@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prodify - Small Steps, Big Progress.</title>
+<link rel="icon" href="assets/images/Icon.png">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css?v=5">
+<link rel="stylesheet" href="css/responsive.css?v=5">
+<link rel="stylesheet" href="css/theme.css?v=5">
+</head>
+<body>
+<div id="landing" class="sheet landing">
+<header class="lnav"><div class="brand landing-brand"><img class="landing-logo" src="assets/images/Icon.png" alt="Logo Prodify"><img class="landing-wordmark" src="assets/images/logo-trim.png" alt="Prodify"></div><nav><a href="#fitur">Fitur</a><a href="#tentang">Tentang</a></nav><button class="btn login-link" data-act="login">Masuk ↗</button></header>
+<section class="lhero"><div class="hero-copy"><span class="tagpill">Small Steps, Big Progress.</span><h1>Naikkan Level Produktivitasmu bersama <span class="hero-brand">Prodify</span></h1><p>Satu aplikasi untuk mengatur tugas, kalender, keuangan, dan progresmu dalam satu tempat.</p><button class="btn alt" data-act="login">Mulai sekarang ↗</button></div><div class="hero-art" aria-label="Ilustrasi 3D produktivitas Prodify"><img src="assets/images/hero-produktivitas-3d.png" alt="Ilustrasi 3D produktivitas dengan tugas, target, dan keuangan"></div></section>
+<section id="fitur" class="panel feature-panel"><div class="section-heading"><div><span class="lbl">- Fitur Prodify -</span><h2>Rencanakan hari,<br><span class="feature-lead">jalani </span><span class="hl">langkah kecil.</span></h2></div><p>Satu tempat untuk tugas, jadwal, keuangan, dan progresmu.</p></div>
+<div class="fgrid"><div id="fitur-tasks" class="fcard"><div class="feature-visual"><img src="assets/images/mascot-idle.png" alt="Mascot fokus mengatur tugas"><strong>01</strong></div><div class="fcard-copy"><span class="fnum">01 / 04 · ORGANIZE</span><div class="hd"><span>Tasks &amp; Calendar</span><button class="go" data-act="login" aria-label="Masuk ke Tasks &amp; Calendar">↗</button></div><p>Atur tugas, deadline, pengingat, dan jadwal harian agar tidak ada langkah yang terlewat.</p><div class="feature-meta"><b>Untuk apa?</b><span>Mengubah rencana menjadi langkah yang bisa dikerjakan.</span></div></div></div><div id="fitur-finance" class="fcard fill"><div class="feature-visual"><img src="assets/images/mascot-happy.png" alt="Mascot senang mengelola keuangan"><strong>02</strong></div><div class="fcard-copy"><span class="fnum">02 / 04 · CONTROL</span><div class="hd"><span>My Finance</span><button class="go" data-act="login" aria-label="Masuk ke My Finance">↗</button></div><p>Catat pemasukan dan pengeluaran, lihat saldo, dan pahami cash flow dengan lebih tenang.</p><div class="feature-meta"><b>Untuk apa?</b><span>Mengetahui ke mana uangmu pergi setiap hari.</span></div></div></div><div id="fitur-progress" class="fcard"><div class="fcard-copy"><span class="fnum">03 / 04 · IMPROVE</span><div class="hd"><span>My Progress</span><button class="go" data-act="login" aria-label="Masuk ke My Progress">↗</button></div><p>Pantau statistik dan evaluasi bulananmu untuk melihat perkembangan yang sudah dicapai.</p><div class="feature-meta"><b>Untuk apa?</b><span>Melihat kemajuan dan merayakan setiap pencapaian.</span></div></div><div class="feature-visual"><img src="assets/images/mascot-excited.png" alt="Mascot bersemangat mencapai progres"><strong>03</strong></div></div><div id="fitur-dashboard" class="fcard fill dashboard-feature"><div class="feature-visual"><img src="assets/images/mascot-sleepy.png" alt="Mascot melihat ringkasan dashboard"><strong>04</strong></div><div class="fcard-copy"><span class="fnum">04 / 04 · OVERVIEW</span><div class="hd"><span>Dashboard Harian</span><button class="go" data-act="login" aria-label="Masuk ke Dashboard">↗</button></div><p>Lihat ringkasan tugas, agenda, pemasukan, dan progresmu dalam satu tampilan.</p><div class="feature-meta"><b>Untuk apa?</b><span>Memulai hari dengan gambaran yang lebih jelas.</span></div></div></div></div></section>
+<section id="tentang" class="panel about"><span class="lbl">- Tentang Prodify -</span><h2>Membantu kamu maju lewat langkah kecil bersama <span class="hl">Prodify</span></h2><p>Semua data tersimpan aman di browser ini (localStorage). Tanpa server dan tanpa password, jadi kamu bisa mulai dengan nyaman.</p>
+<div class="lfoot"><span>Prodify</span><span>Small Steps, Big Progress.</span><span>2026</span></div></section></div>
+<div class="app sheet" id="shell" hidden>
+  <aside class="side">
+    <div class="brand"><span class="mascot sm live m-idle"><img src="assets/images/Icon.png" alt="Icon Prodify"></span><img class="logo" src="assets/images/logo-trim.png" alt="prodify"></div>
+    <nav id="nav">
+      <button data-page="dashboard">Dashboard</button>
+      <button data-page="tasks">Tasks</button>
+      <button data-page="calendar">Calendar</button>
+      <button data-page="finance">Finance</button>
+      <button data-page="progress">Progress</button>
+      <button data-page="settings">Settings</button>
+    </nav>
+    <button class="btn ghost out-btn" data-act="logout">Keluar</button>
+    <p class="tag">Small Steps, Big Progress.</p>
+  </aside>
+  <main class="main">
+    <header class="top">
+      <div class="brand mbrand"><span class="mascot sm live m-idle"><img src="assets/images/Icon.png" alt="Icon Prodify"></span><img class="logo" src="assets/images/logo-trim.png" alt="prodify"></div>
+      <div class="acts">
+        <button id="bell" class="btn ghost" aria-label="Notifikasi">Notif <span id="badge" class="badge" hidden>0</span></button>
+        <button id="qaTask" class="btn">+ Tugas</button>
+        <button id="qaTx" class="btn alt">+ Transaksi</button>
+      </div>
+    </header>
+    <div id="notifPanel" class="card notif" hidden></div>
+
+    <section id="page-dashboard" class="page"></section>
+
+    <section id="page-tasks" class="page" hidden>
+      <h2>My Tasks</h2>
+      <div class="card">
+        <div class="bar-wrap"><div id="tProg" class="fill"></div></div><small id="tProgTxt"></small>
+        <div class="toolbar">
+          <input id="tSearch" type="search" placeholder="Cari judul..." aria-label="Cari tugas">
+          <select id="tView" aria-label="Tampilan"><option value="">Semua</option><option value="today">Hari ini</option><option value="upcoming">Mendatang</option><option value="late">Terlambat</option><option value="done">Selesai</option></select>
+          <select id="tStatus" aria-label="Status"><option value="">Semua status</option><option value="todo">Belum dikerjakan</option><option value="doing">Sedang dikerjakan</option><option value="done">Selesai</option></select>
+          <select id="tPri" aria-label="Prioritas"><option value="">Semua prioritas</option><option value="urgent">Urgent</option><option value="high">High</option><option value="medium">Medium</option><option value="low">Low</option></select>
+          <input id="tDate" type="date" aria-label="Tanggal">
+          <select id="tSort" aria-label="Urutkan"><option value="deadline">Urut deadline</option><option value="priority">Urut prioritas</option></select>
+        </div>
+      </div>
+      <div id="taskList" class="list"></div>
+    </section>
+
+    <section id="page-calendar" class="page" hidden><h2>Calendar</h2><div id="calBody"></div></section>
+
+    <section id="page-finance" class="page" hidden>
+      <h2>My Finance</h2>
+      <div class="card"><div class="toolbar">
+        <input id="fMonth" type="month" aria-label="Bulan">
+        <select id="fType" aria-label="Jenis"><option value="">Semua jenis</option><option value="in">Pemasukan</option><option value="out">Pengeluaran</option></select>
+        <select id="fCat" aria-label="Kategori"></select>
+        <input id="fSearch" type="search" placeholder="Cari transaksi..." aria-label="Cari">
+        <select id="fSort" aria-label="Urutkan"><option value="date">Terbaru</option><option value="amount">Nominal terbesar</option></select>
+      </div></div>
+      <div id="finSum" class="grid"></div>
+      <div id="finExtra" class="grid"></div>
+      <div id="finList" class="list"></div>
+    </section>
+
+    <section id="page-progress" class="page" hidden>
+      <h2>My Progress</h2>
+      <div class="card"><label class="f"><span>Pilih bulan evaluasi</span><input id="pMonth" type="month"></label></div>
+      <div id="progBody"></div>
+    </section>
+
+    <section id="page-settings" class="page" hidden>
+      <h2>Settings</h2>
+      <div class="card form">
+        <label class="f"><span>Nama pengguna</span><input id="sName" maxlength="30"></label>
+        <label class="f"><span>Saldo awal (Rp)</span><input id="sOpen" type="number" step="any"></label>
+        <label class="f"><span>Target penyelesaian bulanan (%)</span><input id="sTarget" type="number" min="1" max="100"></label>
+        <label class="f"><span>Tema</span><select id="sTheme"><option value="light">Terang</option><option value="dark">Gelap</option></select></label>
+        <div class="row"><button id="btnPerm" class="btn alt">Aktifkan notifikasi browser</button><small id="permInfo"></small></div>
+        <p class="note">Pengingat hanya berjalan saat Prodify terbuka di browser. Notifikasi saat browser tertutup memerlukan Service Worker, Push API, dan backend (belum ada).</p>
+        <div class="row"><button id="btnExport" class="btn">Ekspor JSON</button><label class="btn ghost">Impor JSON<input id="fileImport" type="file" accept=".json,application/json" hidden></label><button id="btnReset" class="btn danger">Hapus semua data</button></div>
+        <div class="row"><button class="btn ghost" data-act="logout">Keluar ke halaman awal</button></div>
+        <p class="note">Data tersimpan di localStorage browser ini saja, bukan database online.</p>
+      </div>
+    </section>
+  </main>
+</div>
+<dialog id="modal"><div id="modalBody"></div></dialog>
+<div id="buddy" aria-live="polite"></div>
+<div id="toasts" aria-live="polite"></div>
+<script src="js/storage.js?v=6"></script>
+<script src="js/tasks.js?v=6"></script>
+<script src="js/calendar.js?v=6"></script>
+<script src="js/finance.js?v=6"></script>
+<script src="js/statistics.js?v=6"></script>
+<script src="js/notifications.js?v=6"></script>
+<script src="js/app.js?v=6"></script>
+</body>
+</html>
