@@ -4,6 +4,27 @@ P.CATS={in:['Uang saku','Gaji','Freelance','Penjualan','Beasiswa','Hadiah','Pend
 P.sum=(type,m)=>state.tx.filter(x=>x.type===type&&(!m||(x.date||'').startsWith(m))).reduce((a,x)=>a+x.amount,0);
 P.balance=()=>(Number(state.settings.opening)||0)+P.sum('in')-P.sum('out');
 P.prevKey=k=>{const [y,m]=k.split('-').map(Number);return P.ymd(new Date(y,m-2,1)).slice(0,7)};
+const excelText=v=>String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const monthLabel=m=>m?new Date(m+'-01T00:00:00').toLocaleDateString('id-ID',{month:'long',year:'numeric'}):'Semua bulan';
+P.exportCashflow=()=>{
+ const month=$('#fMonth').value;
+ if(!month)return P.toast('Pilih bulan terlebih dahulu.');
+ const rows=state.tx.filter(x=>(x.date||'').startsWith(month)).slice().sort((a,b)=>(a.date+b.createdAt).localeCompare(b.date+a.createdAt));
+ const income=rows.filter(x=>x.type==='in').reduce((sum,x)=>sum+Number(x.amount||0),0);
+ const expense=rows.filter(x=>x.type==='out').reduce((sum,x)=>sum+Number(x.amount||0),0);
+ const cashflow=income-expense;
+ const detail=rows.length?rows.map((x,i)=>'<tr><td>'+(i+1)+'</td><td>'+excelText(x.date||'-')+'</td><td>'+excelText(x.type==='in'?'Pemasukan':'Pengeluaran')+'</td><td>'+excelText(x.category||'Tanpa kategori')+'</td><td>'+excelText(x.desc||'Tanpa keterangan')+'</td><td class="money">'+Number(x.amount||0)+'</td></tr>').join(''):'<tr><td colspan="6">Tidak ada transaksi pada bulan ini.</td></tr>';
+ const html='<!DOCTYPE html><html><head><meta charset="UTF-8"><style>'+
+  'body{font-family:Calibri,Arial,sans-serif;color:#1f2a44}h1{color:#2f6fbe}h2{margin-top:24px;color:#2f6fbe}table{border-collapse:collapse;width:100%;margin-bottom:18px}th{background:#4a8de8;color:white;font-weight:bold}td,th{border:1px solid #b8c9e3;padding:8px;text-align:left}.money{mso-number-format:"\\#\\,##0";text-align:right}.positive{color:#1f9d68}.negative{color:#e25757}.summary td:first-child{font-weight:bold;width:220px}</style></head><body>'+
+  '<h1>Rekapan Cash Flow Prodify</h1><p><b>Periode:</b> '+excelText(monthLabel(month))+'</p>'+
+  '<h2>Ringkasan</h2><table class="summary"><tr><td>Total pemasukan</td><td class="money positive">'+income+'</td></tr><tr><td>Total pengeluaran</td><td class="money negative">'+expense+'</td></tr><tr><td>Cash flow bersih</td><td class="money '+(cashflow>=0?'positive':'negative')+'">'+cashflow+'</td></tr><tr><td>Jumlah transaksi</td><td>'+rows.length+'</td></tr></table>'+
+  '<h2>Rincian transaksi</h2><table><tr><th>No.</th><th>Tanggal</th><th>Jenis</th><th>Kategori</th><th>Keterangan</th><th>Nominal (Rp)</th></tr>'+detail+'</table>'+
+  '<p>Diekspor dari Prodify pada '+excelText(new Date().toLocaleString('id-ID'))+'</p></body></html>';
+ const blob=new Blob([html],{type:'application/vnd.ms-excel;charset=utf-8'});
+ const url=URL.createObjectURL(blob),a=h('a',{href:url,download:'prodify-cashflow-'+month+'.xls'});
+ document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
+ P.toast('Rekapan cash flow berhasil diunduh.');
+};
 P.topCat=m=>{const t={};state.tx.filter(x=>x.type==='out'&&(x.date||'').startsWith(m)).forEach(x=>t[x.category||'Tanpa kategori']=(t[x.category||'Tanpa kategori']||0)+x.amount);
  return Object.entries(t).sort((a,b)=>b[1]-a[1])};
 P.txForm=tx=>{
