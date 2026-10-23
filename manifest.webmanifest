@@ -1,0 +1,17 @@
+{
+  "name": "Prodify",
+  "short_name": "Prodify",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f8fbff",
+  "theme_color": "#4a8de8",
+  "lang": "id",
+  "icons": [
+    {
+      "src": "assets/images/Icon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
