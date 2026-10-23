@@ -6,9 +6,10 @@ P.balance=()=>(Number(state.settings.opening)||0)+P.sum('in')-P.sum('out');
 P.prevKey=k=>{const [y,m]=k.split('-').map(Number);return P.ymd(new Date(y,m-2,1)).slice(0,7)};
 const excelText=v=>String(v??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 const monthLabel=m=>m?new Date(m+'-01T00:00:00').toLocaleDateString('id-ID',{month:'long',year:'numeric'}):'Semua bulan';
-P.exportCashflow=()=>{
+P.exportCashflow=async()=>{
  const month=$('#fMonth').value;
  if(!month)return P.toast('Pilih bulan terlebih dahulu.');
+ if(!await P.confirm('Apakah kamu ingin mengunduh rekapan cash flow bulan '+monthLabel(month)+' dalam bentuk Excel?'))return;
  const rows=state.tx.filter(x=>(x.date||'').startsWith(month)).slice().sort((a,b)=>(a.date+b.createdAt).localeCompare(b.date+a.createdAt));
  const income=rows.filter(x=>x.type==='in').reduce((sum,x)=>sum+Number(x.amount||0),0);
  const expense=rows.filter(x=>x.type==='out').reduce((sum,x)=>sum+Number(x.amount||0),0);
@@ -23,7 +24,8 @@ P.exportCashflow=()=>{
  const blob=new Blob([html],{type:'application/vnd.ms-excel;charset=utf-8'});
  const url=URL.createObjectURL(blob),a=h('a',{href:url,download:'prodify-cashflow-'+month+'.xls'});
  document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
- P.toast('Rekapan cash flow berhasil diunduh.');
+ P.mood('happy','Rekapan bulananmu berhasil diunduh!');
+ P.toast('Rekapan bulananmu berhasil diunduh!');
 };
 P.topCat=m=>{const t={};state.tx.filter(x=>x.type==='out'&&(x.date||'').startsWith(m)).forEach(x=>t[x.category||'Tanpa kategori']=(t[x.category||'Tanpa kategori']||0)+x.amount);
  return Object.entries(t).sort((a,b)=>b[1]-a[1])};
