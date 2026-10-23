@@ -20,6 +20,7 @@ input[type=checkbox]{width:22px;min-height:22px;height:22px}
 .f{display:flex;flex-direction:column;gap:4px;font-weight:600;font-size:.9rem;margin-bottom:10px}
 .row{display:flex;gap:16px;flex-wrap:wrap;align-items:center}.row>*{flex:1 1 140px}.row.end{justify-content:flex-end}.row.end>*{flex:0 0 auto}.row.between{justify-content:space-between}.row.between>*{flex:0 0 auto}
 .toolbar{display:grid;gap:8px;grid-template-columns:1fr 1fr;margin-top:10px}.toolbar input[type=search]{grid-column:1/-1}
+.finance-actions{justify-content:flex-end;margin-top:10px}.finance-actions>*{flex:0 0 auto}
 .list{display:flex;flex-direction:column;gap:10px}
 .item{display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:12px;flex-wrap:wrap;transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease}
 .item:hover{transform:translateX(4px);box-shadow:0 8px 18px rgba(60,100,180,.12);border-color:rgba(74,141,232,.4)}
