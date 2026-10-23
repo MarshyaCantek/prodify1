@@ -1,4 +1,4 @@
-const CACHE='prodify-shell-v2';
+const CACHE='prodify-shell-v3';
 const SHELL=['./','./index.html','./css/style.css','./css/responsive.css','./css/theme.css','./js/storage.js','./js/tasks.js','./js/calendar.js','./js/finance.js','./js/statistics.js','./js/notifications.js','./js/app.js','./assets/images/Icon.png'];
 
 self.addEventListener('install',event=>{
