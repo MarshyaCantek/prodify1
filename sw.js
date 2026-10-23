@@ -1,10 +1,10 @@
-const CACHE='prodify-shell-v1';
+const CACHE='prodify-shell-v2';
 const SHELL=['./','./index.html','./css/style.css','./css/responsive.css','./css/theme.css','./js/storage.js','./js/tasks.js','./js/calendar.js','./js/finance.js','./js/statistics.js','./js/notifications.js','./js/app.js','./assets/images/Icon.png'];
 
 self.addEventListener('install',event=>{
  event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(SHELL)).then(()=>self.skipWaiting()));
 });
-self.addEventListener('activate',event=>event.waitUntil(self.clients.claim()));
+self.addEventListener('activate',event=>event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE).map(key=>caches.delete(key)))).then(()=>self.clients.claim())));
 self.addEventListener('fetch',event=>{
  if(event.request.method!=='GET')return;
  event.respondWith(caches.match(event.request).then(cached=>cached||fetch(event.request).then(response=>{
