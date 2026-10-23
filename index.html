@@ -91,9 +91,9 @@
         <label class="f"><span>Saldo awal (Rp)</span><input id="sOpen" type="number" step="any"></label>
         <label class="f"><span>Target penyelesaian bulanan (%)</span><input id="sTarget" type="number" min="1" max="100"></label>
         <label class="f"><span>Tema</span><select id="sTheme"><option value="light">Terang</option><option value="dark">Gelap</option></select></label>
-        <div class="row"><button id="btnPerm" class="btn alt">Aktifkan notifikasi browser</button><button id="btnCheckPerm" class="btn ghost" type="button">Validasi izin</button><button id="btnCancelPerm" class="btn danger" type="button">Batalkan notifikasi</button><small id="permInfo"></small></div>
+        <div class="notification-setting"><span class="notification-label">Notifikasi</span><label class="switch"><input id="notificationToggle" type="checkbox"><span class="slider"></span><span class="switch-state">OFF</span></label><small id="permInfo"></small></div>
         <p class="note">Pengingat lokal berjalan saat Prodify terbuka. Service Worker sudah aktif untuk menerima push saat aplikasi tidak dibuka; pengiriman push memerlukan server push/VAPID.</p>
-        <p class="note">Tombol batalkan menonaktifkan notifikasi Prodify dan melepas subscription push. Untuk mencabut izin browser sepenuhnya, buka ikon kunci di samping alamat situs lalu ubah izin Notifikasi menjadi Blokir.</p>
+        <p class="note">OFF menonaktifkan notifikasi Prodify dan melepas subscription push. Untuk mencabut izin browser sepenuhnya, buka ikon kunci di samping alamat situs lalu ubah izin Notifikasi menjadi Blokir.</p>
         <div class="row"><button id="btnExport" class="btn">Ekspor JSON</button><label class="btn ghost">Impor JSON<input id="fileImport" type="file" accept=".json,application/json" hidden></label><button id="btnReset" class="btn danger">Hapus semua data</button></div>
         <div class="row"><button class="btn ghost" data-act="logout">Keluar ke halaman awal</button></div>
         <p class="note">Data tersimpan di localStorage browser ini saja, bukan database online.</p>

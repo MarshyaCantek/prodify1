@@ -74,9 +74,7 @@ $('#sName').addEventListener('change',e=>{S.name=e.target.value.trim()||'Friend'
 $('#sOpen').addEventListener('change',e=>{const v=Number(e.target.value);S.opening=Number.isFinite(v)?v:0;e.target.value=S.opening;save();P.toast('Saldo awal disimpan')});
 $('#sTarget').addEventListener('change',e=>{S.target=Math.min(100,Math.max(1,Number(e.target.value)||80));e.target.value=S.target;save()});
 $('#sTheme').addEventListener('change',e=>{S.theme=e.target.value;save()});
-$('#btnPerm').addEventListener('click',P.requestPerm);
-$('#btnCheckPerm').addEventListener('click',P.permissionStatus);
-$('#btnCancelPerm').addEventListener('click',P.cancelNotifications);
+$('#notificationToggle').addEventListener('change',P.toggleNotifications);
 $('#btnCashflowExport').addEventListener('click',P.exportCashflow);
 $('#btnExport').addEventListener('click',()=>{const data={};Object.keys(P.KEYS).forEach(k=>data[k]=state[k]);
  const a=h('a',{href:URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'})),download:'prodify-backup-'+P.today()+'.json'});a.click();URL.revokeObjectURL(a.href);P.toast('Data diekspor')});

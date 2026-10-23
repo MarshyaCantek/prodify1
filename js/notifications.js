@@ -28,15 +28,22 @@ P.registerServiceWorker=async()=>{
  catch(e){console.error('Prodify: service worker gagal didaftarkan',e);return null}
 };
 P.requestPerm=async()=>{
- if(!('Notification' in window))return P.toast('Browser ini tidak mendukung notifikasi.');
+ if(!('Notification' in window)){P.setNotificationToggle(false);return P.toast('Browser ini tidak mendukung notifikasi.')}
  const permission=await Notification.requestPermission();
  state.settings.notificationsEnabled=permission==='granted';
  P.save('settings',state.settings);
+ P.setNotificationToggle(permission==='granted');
  $('#permInfo').textContent='Izin: '+permission;
  if(permission==='granted'){
   await P.registerServiceWorker();
   P.toast('Notifikasi browser aktif.');
  }else P.toast('Izin notifikasi belum diberikan.');
+};
+P.setNotificationToggle=enabled=>{
+ const toggle=$('#notificationToggle');
+ if(toggle)toggle.checked=enabled;
+ const stateLabel=document.querySelector('.switch-state');
+ if(stateLabel)stateLabel.textContent=enabled?'ON':'OFF';
 };
 P.permissionStatus=async()=>{
  let permission='unsupported';
@@ -45,6 +52,7 @@ P.permissionStatus=async()=>{
   try{const result=await navigator.permissions.query({name:'notifications'});permission=result.state}catch(e){console.warn('Prodify: status izin tidak dapat divalidasi',e)}
  }
  const enabled=state.settings.notificationsEnabled!==false;
+ P.setNotificationToggle(enabled&&permission==='granted');
  $('#permInfo').textContent='Status: '+permission+(enabled?' · Prodify aktif':' · Prodify dinonaktifkan');
  return permission;
 };
@@ -58,8 +66,15 @@ P.cancelNotifications=async()=>{
    if(subscription)await subscription.unsubscribe();
   }catch(e){console.error('Prodify: subscription push gagal dilepas',e)}
  }
+ P.setNotificationToggle(false);
  await P.permissionStatus();
  P.toast('Notifikasi Prodify dibatalkan. Izin browser perlu dicabut manual.');
+};
+P.toggleNotifications=async event=>{
+ if(event.target.checked){
+  await P.requestPerm();
+  await P.permissionStatus();
+ }else await P.cancelNotifications();
 };
 P.checkReminders=()=>{
  if(state.settings.notificationsEnabled===false)return;
