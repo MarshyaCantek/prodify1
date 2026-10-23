@@ -28,16 +28,15 @@ P.registerServiceWorker=async()=>{
  catch(e){console.error('Prodify: service worker gagal didaftarkan',e);return null}
 };
 P.requestPerm=async()=>{
- if(!('Notification' in window)){P.setNotificationToggle(false);return P.toast('Browser ini tidak mendukung notifikasi.')}
+ if(!('Notification' in window)){P.setNotificationToggle(false);return P.toast('Notifikasi dinonaktifkan')}
  const permission=await Notification.requestPermission();
  state.settings.notificationsEnabled=permission==='granted';
  P.save('settings',state.settings);
  P.setNotificationToggle(permission==='granted');
- $('#permInfo').textContent='Izin: '+permission;
  if(permission==='granted'){
   await P.registerServiceWorker();
-  P.toast('Notifikasi browser aktif.');
- }else P.toast('Izin notifikasi belum diberikan.');
+  P.toast('Notifikasi diaktifkan');
+ }else P.toast('Notifikasi dinonaktifkan');
 };
 P.setNotificationToggle=enabled=>{
  const toggle=$('#notificationToggle');
@@ -53,7 +52,6 @@ P.permissionStatus=async()=>{
  }
  const enabled=state.settings.notificationsEnabled!==false;
  P.setNotificationToggle(enabled&&permission==='granted');
- $('#permInfo').textContent='Status: '+permission+(enabled?' · Prodify aktif':' · Prodify dinonaktifkan');
  return permission;
 };
 P.cancelNotifications=async()=>{
@@ -68,7 +66,7 @@ P.cancelNotifications=async()=>{
  }
  P.setNotificationToggle(false);
  await P.permissionStatus();
- P.toast('Notifikasi Prodify dibatalkan. Izin browser perlu dicabut manual.');
+ P.toast('Notifikasi dinonaktifkan');
 };
 P.toggleNotifications=async event=>{
  if(event.target.checked){
